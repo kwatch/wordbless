@@ -6,3 +6,8 @@
 * [_] recent comments
 * [_] themes
 * [_] plugins
+* [_] benchmark
+* [_] post admin
+* [_] manager comments
+* [_] handle deleted_at
+* [_] rename Account -> User
