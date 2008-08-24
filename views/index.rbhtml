@@ -1,0 +1,25 @@
+<?rb if @session && @session['flash'] ?>
+<div id="message" class="flash">
+  <p>${@session['flash']}</p>
+</div>
+<?rb end ?>
+
+<div id="posts" class="posts">
+
+<?rb for item in @model_items ?>
+<div class="post">
+  <h2 class="title"><a href="#{@base_url}/show/#{item['id']}">${item['title']}</a></h2>
+  <div class="info">
+    <span class="created_at">${item['created_at'].to_s}</span> |
+    <span class="created_by">${item['creator']['full_name']}</span> |
+    <span class="tags">#{to_tag_links(item['tags']).join(', ')}</span>
+  </div>
+  <div class="body">#{item['body']}</div>
+  <div class="comments">
+    <a href="#{@base_url}/show/#{item['id']}#comments">${(t"%s Comment(s)") % item['comment_count']}</a> |
+    <a href="#{@base_url}/show/#{item['id']}#comment-form">${t"New comment"}</a>
+  </div>
+</div>
+
+<?rb end ?>
+</div>

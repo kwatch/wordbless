@@ -1,0 +1,31 @@
+<h2>Search results by "${@tag['name']}" tag</h2>
+
+<ul id="posts" class="posts">
+
+<?rb for item in @model_items ?>
+  <li>
+    <span class="title"><a href="#{@base_url}/show/#{item['id']}">${item['title']}</a></span>
+    <div class="info">
+      <span class="created_at">${item['created_at'].to_s}</span> |
+      <span class="created_by">${item['creator']['full_name']}</span> |
+      <a href="#{@base_url}/show/#{item['id']}#comments">${(t"%s Comment(s)") % item['comment_count']}</a> |
+      <span class="tags">#{to_tag_links(item['tags']).join(', ')}</span>
+    </div>
+  </li>
+
+<?rb end ?>
+</ul>
+
+<div>
+  <h3>Other tags</h3>
+  <div id="all-tags" class="all-tags">
+<?rb tag_id = @tag['id'] ?>
+<?rb for tag in @all_tags ?>
+<?rb   if tag['id'] != tag_id ?>
+    <a href="#{@base_url}/search_by_tag_name/#{CGI.escape(tag['name'])}">${tag['name']}</a><span>(#{@posts_count[tag['id']]})</span>
+<?rb   else ?>
+    <a>${tag['name']}</a><span>(#{@posts_count[tag['id']]})</span>
+<?rb   end ?>
+<?rb end ?>
+  </div>
+</div>

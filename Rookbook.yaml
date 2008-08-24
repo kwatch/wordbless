@@ -1,0 +1,26 @@
+
+recipes:
+
+  - product:	:create_tables
+    method*: |
+	require 'kwery'
+	require 'kwery/adapters/mysql'
+	require 'config/database'
+	conn = db_connect()
+	q = Kwery::Query.new(conn)
+	q.output = $stderr
+	for filename in Dir.glob('models/*.rb')
+	  require filename
+	  filename =~ /^models\/(.*)\.rb$/
+	  klass = Object.const_get($1)
+	  q.execute("drop table if exists #{klass.__table__}")
+	  q.execute(klass.to_sql)
+	end
+	#
+	now = :current_timestamp
+	values = {:name=>'admin', :full_name=>'Admin', :password=>'welcome',
+	          :created_by=>0, :created_at=>now, :updated_at=>now }
+	q.insert(Account, values)
+	id = q.last_insert_id
+	q.update(Account, {:id=>id}, :id, id)
+

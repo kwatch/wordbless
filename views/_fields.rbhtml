@@ -1,0 +1,21 @@
+<?rb item = @model_item ?>
+<div class="post">
+  <h2 class="title">${item['title']}</h2>
+  <div class="info">
+    <span class="created_at">${item['created_at'].to_s}</span> |
+    <span class="created_by">${item['creator']['full_name']}</span> |
+    <span class="tags">#{to_tag_links(item['tags']).join(', ')}</span>
+  </div>
+  <div class="body">#{item['body']}</div>
+  <a name="comments" id="comments"></a>
+  <div class="comments">
+    <span>#{item['comments'].length} Comment(s)</span>
+    <dl>
+<?rb for comment in item['comments'] ?>
+      <dt class="info"><span class="user">${comment['user']}</span> (<span class="created_at">#{comment['created_at'].to_s}</span>)</dt>
+      <dd class="body">#{text2html(comment['body'])}</dd>
+<?rb end ?>
+    </dl>
+  </div>
+<?rb import(:_comment_form) ?>
+</div>

@@ -1,0 +1,94 @@
+#page-menu {
+	text-align: right;
+	margin-bottom: -1em;
+}
+
+
+h1 a.logo {
+	text-decoration: none;
+	color: #222222;
+}
+
+h1 a.logo:hover {
+	text-decoration: underline;
+	color: #0000FF;
+}
+
+table.form {
+}
+
+table.form th, table.show th {
+	background: #CCFFCC;
+	padding: 5px 10px;
+	vertical-align: top;
+}
+
+.submit {
+	width: 10em;
+}
+
+.has-error th {
+	color: #FF0000;
+}
+
+.has-error input, .has-error textarea, .has-error select {
+	border: solid 2px #FF0000;
+}
+
+.has-error .mceLayout {
+	border: solid 2px #FF0000 !important;
+}
+
+#message.has-error {
+	color: #FF0000;
+	border: solid 2px #FF0000;
+	background: #FFDDDD;
+}
+
+#message.flash, #message.notice {
+	color: #333333;
+	border: solid 2px #00FF00;
+	background: #DDFFDD;
+	padding: 10px;
+}
+
+
+
+
+/*****************/
+
+.post h2 {
+	border: solid #99FF99;
+	border-width: 0px 0px 1px 20px;
+	padding: 10px 0px 2px 10px;
+}
+
+.post h2 a {
+	text-decoration: none;
+}
+
+.post h2 a:hover {
+	text-decoration: underline;
+}
+
+.post .info {
+	color: #666666;
+}
+
+form dd {
+	margin-left: 0px;
+}
+
+.post {
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+
+
+/*****************/
+
+#all-tags span {
+	margin-right: 5px;
+	color: #666666;
+}
+

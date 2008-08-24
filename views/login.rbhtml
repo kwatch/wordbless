@@ -1,0 +1,23 @@
+<div class="login">
+
+<?rb import(:_errors) ?>
+
+  <form action="#{@base_url}/login" method="post">
+    <table summary="" class="form">
+      <tr #{@has_error[:name]}>
+        <th><label>${t'Account name'}</label></th>
+        <td><input type="text" name="name" value="${@params[:name]}" /></td>
+      </tr>
+      <tr #{@has_error[:password]}>
+        <th><label>${t'Password'}</label></th>
+        <td><input type="password" name="password" value="" /></td>
+      </tr>
+    </table>
+    <p>
+      <input type="hidden" name="_transaction" value="#{transaction_key()}" />
+      <input type="hidden" name="backto" value="${@params[:backto]}" />
+      <input type="submit" name="_submit" value="${t'Login'}" class="submit" />
+    </p>
+  </form>
+
+</div>

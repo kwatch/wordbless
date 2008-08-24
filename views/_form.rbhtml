@@ -1,0 +1,19 @@
+<?rb import(:_errors) ?>
+
+<form action="#{@form_action_url}" method="post">
+  <table summary="" class="form">
+<?rb import(:_form_fields) ?>
+  </table>
+  <p>
+    <input type="hidden" name="_transaction" value="#{transaction_key()}" />
+    <input type="submit" name="_submit" value="${@submit_label}" class="submit" />
+    <input type="submit" name="_cancel" value="${@cancel_label}" class="cancel" />
+  </p>
+</form>
+<script type="text/javascript" language="javascript" src="#{@base_url}/public/js/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" language="javascript">/* <![CDATA[ */
+tinyMCE.init({
+  mode: "textareas",
+  theme: "advanced"
+});
+/* ]]> */</script>

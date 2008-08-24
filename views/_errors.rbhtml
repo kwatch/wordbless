@@ -1,0 +1,12 @@
+<?rb @has_error = {} ?>
+<?rb if @errors && !@errors.empty? ?>
+<div id="message" class="has-error">
+  <ul>
+<?rb   for error in @errors ?>
+<?rb     key, msg, _ = error ?>
+<?rb     @has_error[key] = ' class="has-error"' ?>
+    <li>${msg}</li>
+<?rb   end ?>
+  </ul>
+</div>
+<?rb end ?>

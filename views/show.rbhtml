@@ -1,0 +1,17 @@
+<?rb if @session && @session['flash'] ?>
+<div id="message" class="flash">
+  <p>${@session['flash']}</p>
+</div>
+<?rb end ?>
+
+<div>
+<?rb import(:_fields) ?>
+  <p>
+    <a href="#{@base_url}/">${t'Back to list'}</a>
+<?rb if @login_account ?>
+    | <a href="#{@base_url}/create">${t'Create'}</a>
+    | <a href="#{@base_url}/edit/#{@model_item['id']}">${t'Edit'}</a>
+    | <a href="#{@base_url}/delete/#{@model_item['id']}" onclick="return confirm('Are you sure to delete this post?');">${t'Delete'}</a>
+<?rb end ?>
+  </p>
+</div>

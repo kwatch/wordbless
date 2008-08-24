@@ -1,0 +1,14 @@
+<a name="comment-form" id="comment-form"></a>
+<?rb import(:_errors) ?>
+<?rb @params ||= {} ?>
+  <form action="#{@base_url}/comment/#{@model_item['id']}#comment-form" method="post">
+    <dl>
+      <dt #{@has_error[:user]}><label>${t'User name'}</label>*</dt>
+      <dd #{@has_error[:user]}><input type="text" name="user" value="${@params[:user]}" size="20" /></dd>
+      <dt #{@has_error[:body]}><label>${t'Comment'}</label>*</dt>
+      <dd #{@has_error[:body]}><textarea name="body" rows="5" cols="50">${@params[:body]}</textarea></dd>
+    </dl>
+    <input type="hidden" name="_transaction" value="#{transaction_key()}" />
+    <input type="submit" name="_submit" class="submit" />
+    <input type="reset" />
+  </form>

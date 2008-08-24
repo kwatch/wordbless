@@ -1,0 +1,4 @@
+<?rb @form_action_url = "#{@base_url}/#{@action}/#{@model_item['id']}" ?>
+<?rb @submit_label = t'Edit' ?>
+<?rb @cancel_label = t'Cancel' ?>
+<?rb import(:_form) ?>

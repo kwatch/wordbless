@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?rb
+    doc_title = @doc_title || @title
+    page_title = @page_title || @title
+    lang = @lang || 'en'
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="#{lang}" lang="#{lang}">
+  <head>
+    <title>${doc_title}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <link rel="stylesheet" type="text/css" href="#{@base_url}/public/css/common.css" />
+    <link rel="shortcut icon" href="#{@base_url}/public/img/favicon.ico" />
+    <script language="JavaScript" type="text/javascript" src="#{@base_url}/public/js/common.js"></script>
+  </head>
+  <body>
+    <div id="page-menu" class="page-menu">
+<?rb if @login_account ?>
+      <span>${(t'Hello %s') % @login_account['full_name']}</span>
+      | <a href="#{@base_url}/logout">${t'Logout'}</a>
+      | <a href="#{@base_url}/">${t'Top'}</a>
+      | <a href="#{@base_url}/create">${t'Create new post'}</a>
+<?rb else ?>
+      <a href="#{@base_url}/login?backto=#{CGI.escape(@request_uri)}">login</a>
+<?rb end ?>
+    </div>
+    <h1><a href="#{@base_url}" class="logo">${page_title}</a></h1>
+
+<?rb if @message && !@message.empty? ?>
+  <p id="message" class="notice">${@message}</p>
+<?rb end ?>
+
+    <div id="content">
+#{@_content}
+    <div id="content">
+
+  </body>
+</html>

@@ -1,0 +1,8 @@
+* [_] pagination
+* [_] trackback
+* [_] captcha
+* [_] comment spam protection
+* [_] recent posts
+* [_] recent comments
+* [_] themes
+* [_] plugins

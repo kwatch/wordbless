@@ -1,0 +1,9 @@
+<html>
+  <head>
+    <title>${@status}</title>
+  </head>
+  <body>
+    <h1>${@status}</h1>
+    <p>${@message}</p>
+  </body>
+</html>
