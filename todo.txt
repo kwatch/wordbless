@@ -1,3 +1,4 @@
+* [_] rewrite html design
 * [_] pagination
 * [_] trackback
 * [_] captcha

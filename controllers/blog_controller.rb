@@ -46,11 +46,13 @@ class BlogController < Controller
   end
 
   def query
-    require 'config/database'
-    conn = db_connect()
-    q = Kwery::Query.new(conn)
-    q.output = $stderr if ENV['RUN_MODE'] == 'dev'
-    return q
+    unless @q
+      require 'config/database'
+      conn = db_connect()
+      @q = Kwery::Query.new(conn)
+      @q.output = $stderr if ENV['RUN_MODE'] == 'dev'
+    end
+    return @q
   end
 
 
@@ -134,6 +136,22 @@ class BlogController < Controller
     }
     hash = tags.group_by('post_id')
     posts.each {|post| post['tags'] = hash[post['id'].to_s] || [] }  # WHY .to_s required?
+  end
+
+  def recent_posts(count=10)
+    q = query()
+    columns = 'id, title, created_by, created_at'
+    posts = q.select('wb_posts', columns) {|c| c.order_by(:id).limit(0, count) }
+    set_tags_for_each_posts(q, posts)
+    return posts
+  end
+
+  def recent_comments(count=10)
+    q = query()
+    columns = 'id, post_id, user, created_at'
+    comments = q.select('wb_comments', columns) {|c| c.order_by(:id).limit(0, count) }
+    $stderr.puts "*** debug: comments=#{comments.inspect}"
+    return comments
   end
 
 

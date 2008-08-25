@@ -12,7 +12,7 @@
     <span>#{item['comments'].length} Comment(s)</span>
     <dl>
 <?rb for comment in item['comments'] ?>
-      <dt class="info"><span class="user">${comment['user']}</span> (<span class="created_at">#{comment['created_at'].to_s}</span>)</dt>
+      <dt class="info"><a name="c#{comment['id']}" id="c#{comment['id']}"></a><span class="user">${comment['user']}</span> (<span class="created_at">#{comment['created_at'].to_s}</span>)</dt>
       <dd class="body">#{text2html(comment['body'])}</dd>
 <?rb end ?>
     </dl>
