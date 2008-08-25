@@ -1,1 +1,0 @@
-/Users/kwatch/src/editorkicker/ruby/lib/editor_kicker.rb

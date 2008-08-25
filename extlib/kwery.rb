@@ -1,1 +1,0 @@
-/Users/kwatch/src/kwery/ruby/lib/kwery.rb
