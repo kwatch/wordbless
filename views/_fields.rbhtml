@@ -1,6 +1,10 @@
 <?rb item = @model_item ?>
 <div class="post">
-  <h2 class="title">${item['title']}</h2>
+<?rb if @model_items ?>
+  <h3 class="title"><a href="#{@base_url}/#{@date}/#{item['id']}">${item['title']}</a></h3>
+<?rb else ?>
+  <h3 class="title">${item['title']}</h3>
+<?rb end ?>
   <div class="info">
     <span class="created_at">${item['created_at'].to_s}</span> |
     <span class="created_by">${item['creator']['full_name']}</span> |

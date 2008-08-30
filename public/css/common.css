@@ -1,14 +1,37 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	margin-left: 2em;
+	list-style-position: outside;
+}
+
+ul, ol, dl {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h1 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+
+
+/********************/
+
 #page-menu {
 	text-align: right;
 	margin-bottom: -1em;
 }
 
 #page-container {
-	Xborder: solid 1px #FF0000;
+	border: solid 1px #FF0000;
 	background: #CCFFCC;
-	width: 800px;
-	margin-left: auto;
-	margin-right: auto;
+	width: 804px;
+	margin: 0 auto;
 }
 
 #header {
@@ -18,36 +41,41 @@
 
 
 #content {
-	Xborder: solid 1px #00FF00;
+	border: solid 1px #00FF00;
 	background: #FFFFFF;
 	width: 580px;
 	float: left;
+	Xposition: absolute;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 
 #sidebar {
-	Xborder: solid 1px #0000FF;
+	border: solid 1px #0000FF;
 	background: #CCFFCC;
 	width: 180px;
-	margin-left: 600px;
+	float: right;
+	Xposition: absolute;
+	Xleft: 600px;
+	Xpadding: 0 10px;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 
 #sidebar ul {
 	Xborder: solid 1px black;
-	margin-left: 10px;
-	padding-left: 10px;
+	Xmargin-left: 10px;
+	Xpadding-left: 10px;
 }
 
 #sidebar li {
-	padding-bottom: 10px;
+	Xpadding-bottom: 10px;
 }
 
 
 #footer {
 	background: #CCFFCC;
+	clear: both;
 	padding-top: 20px;
 	padding-bottom: 50px;
 }
@@ -120,17 +148,18 @@ table.form th, table.show th {
 
 /*****************/
 
-.post h2 {
+
+.post h3 {
 	border: solid #99FF99;
 	border-width: 0px 0px 1px 20px;
 	padding: 10px 0px 2px 10px;
 }
 
-.post h2 a {
+.post h3 a {
 	text-decoration: none;
 }
 
-.post h2 a:hover {
+.post h3 a:hover {
 	text-decoration: underline;
 }
 

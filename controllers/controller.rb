@@ -33,13 +33,14 @@ class Controller
     pos = (@request_uri.index('?') || 0) - 1
     str = @request_uri[(@base_url.length+1)..pos]
     path_elems = str.split('/').collect {|s| CGI.unescape(s) }
-    if path_elems.empty?
-      @action = 'index'
-      @args   = []
-    else
-      @action = path_elems[0]
-      @args   = path_elems[1..-1]
-    end
+    #if path_elems.empty?
+    #  @action = 'index'
+    #  @args   = []
+    #else
+    #  @action = path_elems[0]
+    #  @args   = path_elems[1..-1]
+    #end
+    @action, @args = action_and_args(path_elems)
     ## handle action
     method_name = 'do_' + @action
     unless self.respond_to?(method_name)
@@ -47,6 +48,17 @@ class Controller
       return false
     end
     invoke_handler(method_name)
+  end
+
+  def action_and_args(path_elems)
+    if path_elems.empty?
+      action = 'index'
+      args   = []
+    else
+      action = path_elems[0]
+      args   = path_elems[1..-1]
+    end
+    return action, args
   end
 
   def invoke_handler(method_name)

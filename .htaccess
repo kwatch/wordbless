@@ -1,3 +1,4 @@
 RewriteEngine on
 RewriteRule  ^(.*\.(css|js|png|gif|jpg)$)  $1 [L]
+RewriteRule  ^(public/.*)$  $1 [L]
 RewriteRule  ^.*$           index.cgi

@@ -31,23 +31,27 @@
       <h1><a href="#{@base_url}" class="logo">${page_title}</a></h1>
     </div>
 
-    <div id="content" class="conent">
+    <!-- content -->
+    <div id="content" class="content">
 <?rb if @message && !@message.empty? ?>
   <p id="message" class="notice">${@message}</p>
 <?rb end ?>
 
 #{@_content}
     </div>
+    <!-- /content -->
 
+    <!-- sidebar -->
     <div id="sidebar" class="sidebar">
 <?rb import(:_sidebar) ?>
     </div>
     <br clear="all" />
+    <!-- /sidebar -->
 
     <div id="footer" class="footer">
       <address>
-	<div>copyright&copy; 2008 kuwata-lab.com all rights reserved.</div>
-	<div>powered by <a href="">wordbless</a> and ruby ${RUBY_VERSION}</div>
+        <div>copyright&copy; 2008 kuwata-lab.com all rights reserved.</div>
+        <div>powered by <a href="">wordbless</a> and ruby ${RUBY_VERSION}</div>
       </address>
     </div>
 

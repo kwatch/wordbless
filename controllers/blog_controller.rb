@@ -23,6 +23,21 @@ class BlogController < Controller
     start_transaction_session()
   end
 
+  def action_and_args(path_elems)
+    action, args = super
+    if action =~ /\A(\d\d\d\d)-(\d\d)(?:-(\d\d))\z/
+      year, month, day = $1.to_i, $2.to_i, ($3 ? $3.to_i : nil)
+      if day
+        @day = Time.mktime(year, month, day)
+        action = 'show_posts_on'
+      else
+        @month = Time.mktime(year, month)
+        action = 'show_posts_in'
+      end
+    end
+    return action, args
+  end
+
 
   ####
   #### controller helpers
@@ -77,6 +92,10 @@ class BlogController < Controller
 
   def text2html(text)
     return escape(text).gsub(/\r?\n/, "<br />\n")
+  end
+
+  def d2s(time)
+    return "%4d-%02d-%02d" % [time.year, time.month, time.day]
   end
 
 
@@ -286,13 +305,7 @@ class BlogController < Controller
     count = 10
     q = query()
     posts = q.get_all('wb_posts') {|c| c.order_by_desc(:id).limit(offset, count) }
-    if !posts.empty?
-      q.bind_references_to(posts, 'wb_accounts', 'created_by', 'creator')
-      #q.bind_referenced_from(posts, 'wb_comments', :post_id, 'comments')
-      set_comment_counts(q, posts)
-      set_tags_for_each_posts(q, posts)
-    end
-    @model_items = posts
+    _prepare_posts(q, posts, true)
     #_200_OK()
     render(:index)
     return true
@@ -312,13 +325,14 @@ class BlogController < Controller
       _404_Not_Found((t"Post not found."))
       return false
     end
-    _prepare_show(q, post)
+    ## render
+    _prepare_post(q, post)
     #_200_OK()
     render(:show)
     return true
   end
 
-  def _prepare_show(q, post)
+  def _prepare_post(q, post)
     @model_item = post
     ## related objects
     post['creator'] = q.get('wb_accounts', :id, post['created_by'])
@@ -326,13 +340,50 @@ class BlogController < Controller
     post['tags'] = get_tags(q, post['id'])
   end
 
-  def do_create(post)
-    return false unless logged_in?()
-    ## login required
-    unless @login_account
-      _401_Unauthorized('Not logged in.')
-      return false
+  def _prepare_posts(q, posts, for_list=true)
+    if posts
+      q.bind_references_to(posts, 'wb_accounts', 'created_by', 'creator')
+      for_list ? set_comment_counts(q, posts) \
+               : q.bind_referenced_from(posts, 'wb_comments', :post_id, 'comments')
+      set_tags_for_each_posts(q, posts)
     end
+    @model_items = posts
+  end
+
+  def do_show_posts_on()
+    @date = @day.strftime('%Y-%m-%d')
+    q = query()
+    if @args.empty?
+      posts = q.get_all('wb_posts') {|c|
+        c.where('date(created_at) = ', @date)
+        c.order_by(:id)
+      }
+      _prepare_posts(q, posts, false)
+    else
+      post_id = @args.first
+      post = q.get('wb_posts', :id, post_id)
+      if !post || d2s(post['created_at']) != @date
+        _404_Not_Found('Post not found.')
+        return fasle
+      end
+      _prepare_post(q, post)
+    end
+    render(:show_posts)
+  end
+
+  def do_show_posts_in()
+    @date = @day.strftime('%Y-%m')
+    q = query()
+    posts = q.get_all('wb_posts') {|c|
+      c.where("date_format(created_at, '%Y-%m')", @date)
+      c.order_by(:id)
+    }
+    _prepare_posts(q, posts, true)
+    render(:index)
+  end
+
+  def do_create()
+    return false unless logged_in?()
     ## show form
     if @request_method != 'POST'
       #_200_OK()
@@ -494,7 +545,7 @@ class BlogController < Controller
     if errors && !errors.empty?
       @errors = errors
       _400_Bad_Request(false)
-      _prepare_show(q, post)
+      _prepare_post(q, post)
       render_view(:show)
       return false
     end
