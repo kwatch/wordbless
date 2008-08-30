@@ -12,7 +12,7 @@ module ResponseHelper
 
   def _4xx(status, message)
     print @cgi.header('Status'=>status, 'Content-Type'=>'text/html; charset=UTF-8')
-    if message
+    unless message == false
       #@status = status
       #@message = message
       #render_view(:_4xx)

@@ -45,6 +45,12 @@ class BlogController < Controller
     end
   end
 
+  def logged_in?()
+    return if @login_account
+    _401_Unauthorized('Not logged in.')
+    return false
+  end
+
   def query
     unless @q
       require 'config/database'
@@ -237,7 +243,7 @@ class BlogController < Controller
     errors = validate_login(@params)
     if !errors.empty?
       @errors = errors
-      _400_Bad_Request()
+      _400_Bad_Request(false)
       render_view(:login)
       return false
     end
@@ -309,6 +315,12 @@ class BlogController < Controller
   end
 
   def do_create
+    return false unless logged_in?()
+    ## login required
+    unless @login_account
+      _401_Unauthorized('Not logged in.')
+      return false
+    end
     ## show form
     if @request_method != 'POST'
       #_200_OK()
@@ -327,7 +339,7 @@ class BlogController < Controller
     errors = validate_post(@params)
     if !errors.empty?
       @errors = errors
-      _400_Bad_Request()
+      _400_Bad_Request(false)
       render_view(:create)
       return false
     end
@@ -346,6 +358,7 @@ class BlogController < Controller
   end
 
   def do_edit
+    return false unless logged_in?()
     ## post id
     post_id = @args.empty? ? nil : @args.shift
     if !post_id || post_id.empty?
@@ -384,7 +397,7 @@ class BlogController < Controller
     errors = validate_post(@params)
     if !errors.empty?
       @errors = errors
-      _400_Bad_Request()
+      _400_Bad_Request(false)
       render_view(:edit)
       return false
     end
@@ -418,6 +431,7 @@ class BlogController < Controller
   end
 
   def do_delete
+    return false unless logged_in?()
     ## post id
     post_id = @args.empty? ? nil : @args.shift
     if !post_id || post_id.empty?
@@ -467,7 +481,7 @@ class BlogController < Controller
     errors = validate_comment(@params)
     if errors && !errors.empty?
       @errors = errors
-      _400_Bad_Request()
+      _400_Bad_Request(false)
       render_view(:show)
       return false
     end
@@ -524,6 +538,7 @@ class BlogController < Controller
   end
 
   def do_env
+    return false unless logged_in?()
     html = ""
     html << "<table>\n"
     odd = false

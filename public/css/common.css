@@ -62,6 +62,10 @@
 
 /*****************/
 
+body {
+	Xfont-family: "Hiragino Kaku Gothic Std";
+	Xfont-family: "Hiragino Mincho Pro";
+}
 
 h1 a.logo {
 	text-decoration: none;
