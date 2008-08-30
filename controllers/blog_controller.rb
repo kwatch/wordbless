@@ -147,7 +147,7 @@ class BlogController < Controller
   def recent_posts(count=10)
     q = query()
     columns = 'id, title, created_by, created_at'
-    posts = q.select('wb_posts', columns) {|c| c.order_by(:id).limit(0, count) }
+    posts = q.select('wb_posts', columns) {|c| c.order_by_desc(:id).limit(0, count) }
     set_tags_for_each_posts(q, posts)
     return posts
   end
@@ -155,8 +155,7 @@ class BlogController < Controller
   def recent_comments(count=10)
     q = query()
     columns = 'id, post_id, user, created_at'
-    comments = q.select('wb_comments', columns) {|c| c.order_by(:id).limit(0, count) }
-    $stderr.puts "*** debug: comments=#{comments.inspect}"
+    comments = q.select('wb_comments', columns) {|c| c.order_by_desc(:id).limit(0, count) }
     return comments
   end
 
