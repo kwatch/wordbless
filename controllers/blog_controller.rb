@@ -194,6 +194,7 @@ class BlogController < Controller
     v = values.fetch(key, '').strip
     if    v.empty?        ; errors << [key, (t"%s is required.") % (t'Comment')]
     elsif v.length > 4096 ; errors << [key, (t"%s is too long.") % (t'Comment')]
+    elsif comment_spam?(v); errors << [key, (t"%s contains too many URLs (refused for spam).") % (t'Comment')]
     end
     ##
     return errors
@@ -222,6 +223,15 @@ class BlogController < Controller
     end
     ##
     return errors
+  end
+
+
+  ###
+  ### validator helper
+  ###
+  def comment_spam?(comment_text)
+    return false unless comment_text
+    return comment_text.scan(/https?:\/\//).length >= 3
   end
 
 
@@ -302,18 +312,21 @@ class BlogController < Controller
       _404_Not_Found((t"Post not found."))
       return false
     end
-    @model_item = post
-    ## related objects
-    post['creator'] = q.get('wb_accounts', :id, post['created_by'])
-    post['comments'] = q.get_all('wb_comments', :post_id, post['id'])
-    post['tags'] = get_tags(q, post['id'])
-    ## render
+    _prepare_show(q, post)
     #_200_OK()
     render(:show)
     return true
   end
 
-  def do_create
+  def _prepare_show(q, post)
+    @model_item = post
+    ## related objects
+    post['creator'] = q.get('wb_accounts', :id, post['created_by'])
+    post['comments'] = q.get_all('wb_comments', :post_id, post['id'])
+    post['tags'] = get_tags(q, post['id'])
+  end
+
+  def do_create(post)
     return false unless logged_in?()
     ## login required
     unless @login_account
@@ -481,6 +494,7 @@ class BlogController < Controller
     if errors && !errors.empty?
       @errors = errors
       _400_Bad_Request(false)
+      _prepare_show(q, post)
       render_view(:show)
       return false
     end

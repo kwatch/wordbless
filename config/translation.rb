@@ -18,8 +18,12 @@ DICTIONARY['ja'] = {
   'New comment'   => 'コメントする',
   'Account name'  => 'アカウント名',
   'Password'      => 'パスワード',
+  'Login'         => 'ログイン',
   '%s is required.'     => '%sが入力されていません。',
   '%s is not selected.' => '%sが選択されていません。',
   '%s is too long.'     => '%sが長すぎます。',
   'Invalid account name or password.' => 'アカウント名またはパスワードが正しくありません。',
+  '%s contains too many URLs (refused for spam).' => '%sに含まれているURLが多すぎます (スパム対策のため制限をかけています)。',
+  'Recent posts'    => '最近の投稿',
+  'Recent comments' => '最近のコメント',
 }

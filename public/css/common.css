@@ -90,7 +90,7 @@ table.form th, table.show th {
 	width: 10em;
 }
 
-.has-error th {
+.has-error label {
 	color: #FF0000;
 }
 
